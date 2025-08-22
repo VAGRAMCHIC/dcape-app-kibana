@@ -1,0 +1,11 @@
+server.host: "0.0.0.0"
+server.port: 5601
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+
+# если Elasticsearch с паролями:
+# elasticsearch.username: "kibana_system"
+# elasticsearch.password: "your_password"
+
+# включение/выключение security
+xpack.security.enabled: false
+

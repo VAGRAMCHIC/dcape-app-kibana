@@ -1,0 +1,19 @@
+# custom app config
+# overrides DCAPE/apps/drone/dcape-app/docker-compose.yml
+
+services:
+  app:
+    labels:
+      - traefik.http.routers.${APP_TAG}.rule=Host(`${APP_SITE:?Must be set}`) || Host(`www.${APP_SITE}`)
+      # TLS support
+      - traefik.http.routers.${APP_TAG}.tls.domains[0].main=${APP_SITE}
+      - traefik.http.routers.${APP_TAG}.tls.domains[0].sans=${APP_ACME_DOMAIN}
+      # Redirect www.host -> host
+      - traefik.http.middlewares.${APP_TAG}-redirwww.redirectregex.regex=^http(s?)://www.${APP_SITE}/(.*)
+      - traefik.http.middlewares.${APP_TAG}-redirwww.redirectregex.replacement=http$${1}://${APP_SITE}/$${2}
+      - traefik.http.routers.${APP_TAG}.middlewares=${APP_TAG}-redirwww
+    build:
+      context: .
+      args:
+        IMAGE: "${IMAGE}"
+        IMAGE_VER: "${IMAGE_VER}"
