@@ -7,7 +7,7 @@ CFG                ?= .env
 CFG_BAK            ?= $(CFG).bak
 
 #- App name
-APP_NAME           ?= kibana-8.14.3 
+APP_NAME           ?= kibana
 
 #- Docker image name
 IMAGE              ?= kibana
@@ -21,6 +21,8 @@ IMAGE_VER          ?= 8.14.3
 # If you need user name and password, uncomment this var
 #ADD_USER            = yes
 
+
+
 # ------------------------------------------------------------------------------
 
 # if exists - load old values
@@ -31,12 +33,11 @@ export
 export
 
 # This content will be added to .env
-# define CONFIG_CUSTOM
-# # ------------------------------------------------------------------------------
-# # Sample config for .env
-# #SOME_VAR=value
-#
-# endef
+define CONFIG_CUSTOM
+ELASTICSEARCH_HOSTS=$(ELASTICSEARCH_HOSTS)
+ELASTICSEARCH_USERNAME=$(ELASTICSEARCH_USERNAME)
+ELASTICSEARCH_PASSWORD=$(ELASTICSEARCH_PASSWORD) 
+endef
 
 # ------------------------------------------------------------------------------
 # Find and include DCAPE_ROOT/Makefile
